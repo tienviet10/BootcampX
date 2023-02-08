@@ -7,7 +7,6 @@ const pool = new Pool({
   database: 'bootcampx'
 });
 
-const userInput = process.argv.slice(2);
 const queryTemplate = `
 SELECT
   teachers.name as teacher,
@@ -27,7 +26,10 @@ ORDER BY
   teachers.name;
 `;
 
-pool.query(queryTemplate, userInput)
+const cohortName = process.argv[2];
+const values = [`${cohortName}`];
+
+pool.query(queryTemplate, values)
   .then(res => {
     res.rows.forEach(teacher => {
       console.log(`${teacher.cohort}: ${teacher.teacher}`);
